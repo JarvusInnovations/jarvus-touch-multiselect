@@ -1,3 +1,5 @@
+/* jshint undef: true, unused: true, browser: true, quotmark: single, curly: true */
+/* global Ext */
 Ext.define('Jarvus.touch.field.Multiselect', {
     extend: 'Ext.field.Select',
     xtype: 'multiselectfield',
@@ -13,6 +15,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
 
         clearButton: false
     },
+
     /**
      * Updates the {@link #doneButton} configuration. Will change it into a button when appropriate, or just update the text if needed.
      * @param {Object} config
@@ -24,7 +27,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
                 config = {};
             }
 
-            if (typeof config == "string") {
+            if (typeof config == 'string') {
                 config = {
                     text: config
                 };
@@ -53,7 +56,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
                 config = {};
             }
 
-            if (typeof config == "string") {
+            if (typeof config == 'string') {
                 config = {
                     text: config
                 };
@@ -117,13 +120,13 @@ Ext.define('Jarvus.touch.field.Multiselect', {
 
             toolbar = me.listPanel.down('toolbar');
 
-            if(listMode === 'SINGLE'){
+            if (listMode === 'SINGLE'){
                 me.listPanel.down('list').on('itemtap',me.onListTap,me);
                 toolbar.hide();
-            }else{
+            } else {
                 config = me.getClearButton();
 
-                if(config) {
+                if (config) {
                     toolbar.show();
                     toolbar.add(config);
                 }
@@ -133,6 +136,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
         }
         return me.listPanel;
     },
+
     /**
      * @private
      */
@@ -140,6 +144,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
         this.setValue(record);
         this.callParent();
     },
+
     /**
      * @private
      */
@@ -148,6 +153,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
         this.setValue(records);
         this.superclass.onListTap.call(this);
     },
+
     /**
      * @private
      */
@@ -156,6 +162,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
         this.setValue(null);
         this.superclass.onListTap.call(this);
     },
+
     /**
      * @private
      */
@@ -163,6 +170,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
         this.getOptions();
         return  this.getValueFromRecords(value,this.getValueField());
     },
+
     /**
      * @private
      */
@@ -173,6 +181,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
       value = value.join(me.getDelimiter());
       me.superclass.superclass.updateValue.call(me,[value]);
     },
+
     /**
      * @private
      */
@@ -183,6 +192,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
             out = [],
             len,
             item;
+
         if (value) {
             if (delimiter && Ext.isString(value)) {
                 value = value.split(delimiter);
@@ -192,12 +202,14 @@ Ext.define('Jarvus.touch.field.Multiselect', {
 
             for (len = value.length; i < len; ++i) {
                 item = store.findRecord(fieldIn,value[i]);
-                if(item)
+                if (item) {
                     out.push(item.get(fieldOut));
+                }
             }
         }
         return out;
     },
+
     /**
      * @private
      * Returns the value in array form from records
@@ -209,6 +221,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
             out = [],
             len,
             item;
+
         if (value) {
             if (delimiter && Ext.isString(value)) {
                 value = value.split(delimiter);
@@ -226,6 +239,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
         }
         return out.length > 0 ? out : value;
     },
+
     /**
      * @private
      */
@@ -252,6 +266,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
         }
         return records;
     },
+
     /**
      * Returns the current selected {@link Ext.data.Model records} instances selected in this field.
      * @return {Ext.data.Model[]} An array of Records.
@@ -259,6 +274,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
     getSelection: function() {
         return this.listPanel.down('list').getSelection();
     },
+
     /**
      * Returns the current selected records as an array of their valueFields.
      * @return {Array} An array of valueFields
@@ -266,6 +282,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
     getValue: function() {
         return this._value;
     },
+
     /**
      * @private
      */
@@ -275,6 +292,7 @@ Ext.define('Jarvus.touch.field.Multiselect', {
 
         me.fireEvent('change', me, me.getValue(), old);
     },
+
     /**
      * Shows the picker for the select field, whether that is a {@link Ext.picker.Picker} or a simple
      * {@link Ext.List list}.
@@ -296,23 +314,24 @@ Ext.define('Jarvus.touch.field.Multiselect', {
 
         var listPanel = me.getTabletPicker(),
             list = listPanel.down('list'),
-            index, records,
+            records,
             value = me.getValue();
 
         if (!listPanel.getParent()) {
             Ext.Viewport.add(listPanel);
         }
 
-        if(value){
+        if (value){
             records = me.getRecordsFromValue(value);
             list.select(records, null, true);
-        }else{
+        } else{
             list.deselectAll();
         }
         listPanel.show();
 
         //listPanel.showBy(me.getComponent(), (Ext.os.is.BlackBerry && Ext.os.version.getMajor() === 10) ? 't-b' : null);
     },
+
     /**
      * Called when the internal {@link #store}'s data has changed.
      */
