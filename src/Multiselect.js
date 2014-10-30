@@ -166,9 +166,21 @@ Ext.define('Jarvus.touch.field.Multiselect', {
     /**
      * @private
      */
-    applyValue: function(value) {
+    applyValue: function(value, oldValue) {
         this.getOptions();
-        return  this.getValueFromRecords(value,this.getValueField());
+        value = this.getValueFromRecords(value, this.getValueField());
+
+        // if value array is equivelent, return the old instance to supress detecting field as dirty
+        if (
+            value && oldValue &&
+            Ext.isArray(value) && Ext.isArray(oldValue) &&
+            value.length == oldValue.length &&
+            Ext.Array.merge(value, oldValue).length == value.length
+        ) {
+            value = oldValue;
+        }
+
+        return value;
     },
 
     /**
