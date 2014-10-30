@@ -13,7 +13,9 @@ Ext.define('Jarvus.touch.field.Multiselect', {
 
         doneButton: true,
 
-        clearButton: false
+        clearButton: false,
+
+        autoSelect: false
     },
 
     /**
