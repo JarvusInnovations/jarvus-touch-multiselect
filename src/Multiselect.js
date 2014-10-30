@@ -369,5 +369,28 @@ Ext.define('Jarvus.touch.field.Multiselect', {
                 }
             }
         }
-    }
+    },
+
+    resetOriginalValue: function() {
+        var me = this,
+            component = me.getComponent();
+
+        me.originalValue = me.getValue();
+
+        if(component && component.hasOwnProperty('originalValue')) {
+            component.originalValue = me.convertValue(me.originalValue, me.getValueField(), me.getDisplayField()).join(me.getDelimiter());
+        }
+
+        me.reset();
+    },
+
+    reset: function() {
+        var me = this;
+
+        me.getComponent().reset();
+
+        me.setValue(me.getValue());
+
+        me[me.isDirty() ? 'showClearIcon' : 'hideClearIcon']();
+    },
 });
