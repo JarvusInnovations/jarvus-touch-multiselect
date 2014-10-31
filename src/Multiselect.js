@@ -169,16 +169,14 @@ Ext.define('Jarvus.touch.field.Multiselect', {
      * @private
      */
     applyValue: function(value, oldValue) {
-        this.getOptions();
-        value = this.getValueFromRecords(value, this.getValueField());
+        var me = this;
+
+        me.getOptions();
+
+        value = me.getValueFromRecords(value, me.getValueField());
 
         // if value array is equivelent, return the old instance to supress detecting field as dirty
-        if (
-            value && oldValue &&
-            Ext.isArray(value) && Ext.isArray(oldValue) &&
-            value.length == oldValue.length &&
-            Ext.Array.merge(value, oldValue).length == value.length
-        ) {
+        if (me.areArraysEquivalent(value, oldValue)) {
             value = oldValue;
         }
 
@@ -384,13 +382,18 @@ Ext.define('Jarvus.touch.field.Multiselect', {
         me.reset();
     },
 
-    reset: function() {
+    areArraysEquivalent: function(array1, array2) {
+        return (
+            array1 && array2 &&
+            Ext.isArray(array1) && Ext.isArray(array2) &&
+            array1.length == array2.length &&
+            Ext.Array.merge(array1, array2).length == array1.length
+        );
+    },
+
+    isDirty: function() {
         var me = this;
 
-        me.getComponent().reset();
-
-        me.setValue(me.getValue());
-
-        me[me.isDirty() ? 'showClearIcon' : 'hideClearIcon']();
-    },
+        return !me.areArraysEquivalent(me.getValue(), me.originalValue);
+    }
 });
